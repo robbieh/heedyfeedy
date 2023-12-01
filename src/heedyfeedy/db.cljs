@@ -8,11 +8,11 @@
 ;(.removeItem js/localStorage ls-server-config-key )
 (def default-db
   {:name "HeedyFeedy"
-   :server (into  {} (some->>
-                              (.getItem js/localStorage ls-server-config-key)
-                              (cljs.reader/read-string)))
+   :server (into {} (some->> (.getItem js/localStorage ls-server-config-key)
+                             (cljs.reader/read-string)))
    :heedy-objects {}
    :heedy-ts {}
+   :heedy-send-queue {}
    :basket {}
    :error-messages []
    })

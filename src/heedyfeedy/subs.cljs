@@ -11,5 +11,14 @@
 (re-frame/reg-sub :aw-test
   (fn [db] (:aw-test db)))
 
+(re-frame/reg-sub :heedy-objects
+  (fn [db] (:heedy-objects db)))
+
+(re-frame/reg-sub :basket
+  (fn [db] (:basket db)))
+
+(re-frame/reg-sub :heedy-send-queue
+  (fn [db] (:heedy-send-queue db)))
+
 ;(re-frame/reg-sub :error-messages
 ;  (fn [db _] (:error-messages db)))

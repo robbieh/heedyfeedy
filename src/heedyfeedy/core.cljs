@@ -18,11 +18,8 @@
     (rdom/unmount-component-at-node root-el)
     (rdom/render [views/starter] root-el)))
 
-(def aw-test (atom {}))
-(add-watch aw-test :aw-test (fn [key atom old new] (re-frame/dispatch-sync [::events/aw-test-update new])))
-(comment (swap! aw-test assoc :new 3)
-         (identity @aw-test))
 (defn init []
   (re-frame/dispatch-sync [::events/initialize-db])
+  (println "you've called INIT!")
   (dev-setup)
   (mount-root))

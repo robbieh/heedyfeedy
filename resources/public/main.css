@@ -1,6 +1,6 @@
 
 :root {
-  --color-accent: #266cf5;
+  --color-accent: #62ac85;
   --color-text: #173878;
 }
 
@@ -44,8 +44,12 @@ a {
 }
 
 .app-header {
+  position: sticky;
+  top: 0;
+  background: var(--color-accent);
   padding: 8px 0;
   display: flex;
+  justify-content: normal;
 }
 
 .refresh-icon {
@@ -54,9 +58,78 @@ a {
 }
 
 .app-footer {
-  text-align: center;
+  background: lightyellow;
+  display: flex;
+  justify-content: normal;
+  text-align: left;
   padding: 8px 0;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
+
+.footer-icon {
+}
+
+.text-input {
+  border-left: none;
+  border-right: none;
+  border-top: 2px solid var(--color-accent);
+  border-bottom: 2px solid var(--color-accent);
+  color: var(--color-text);
+  padding: 8px 12px;
+  font-size: 18px;
+}
+
+.login {
+  border: 2px solid var(--color-accent);
+  background: #fafafa;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.login-header {
+  justify-content: center;
+  padding: 8px 0;
+  display: flex;
+}
+
+.heedy-object {
+  background: lightgreen;
+  padding: 8px 0;
+  display: flex;
+  border: 2px solid var(--color-accent);
+}
+
+.heedy-entry-line {
+  display: flex;
+}
+
+.basket-item {
+  padding: 8px;
+}
+.basket-button {
+  background: lightgray;
+}
+
+.header-icon {
+}
+.push {
+  margin-left: auto;
+}
+
+.refresh-icon {
+  position: absolute;
+  right: 0;
+}
+
 
 .text-input {
   border-left: none;
@@ -126,3 +199,19 @@ a {
   padding: 8px 0;
   display: flex;
 }
+
+.app-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 200px);
+}
+
+.heedy-object {
+	background: lightgreen;
+	margin: 8px 8px;
+	padding: 8px 8px;
+	display: flex;
+	flex-direction: column;
+    border: 2px solid var(--color-accent);
+}
+
+

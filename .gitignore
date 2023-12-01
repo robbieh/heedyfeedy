@@ -1,3 +1,4 @@
+*.swp
 /out/
 /resources/public/js/compiled/
 /target/
