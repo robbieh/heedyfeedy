@@ -144,12 +144,12 @@
    (when (:error @server-info) [:p (:error @server-info)])
    ]
   )
-
 ;(re-frame/dispatch ::heedy-get-objects)
 (defn starter "Conditionally show login panel or main page"
   []
   (let [server-info (re-frame/subscribe [:server])
         ]
+;(day8.re-frame-10x/show-panel! false)
 ;(println "info" (:show-server-info @server-info) )
     (if (:show-server-info @server-info) 
       (login-panel server-info)

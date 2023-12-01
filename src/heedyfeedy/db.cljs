@@ -4,28 +4,30 @@
    ))
 
 (def ls-server-config-key "heedyfeedy-server-config")
+(def ls-basket-key "heedyfeedy-basket")
+(def ls-objects-key "heedyfeedy-objects")
 
 ;(.removeItem js/localStorage ls-server-config-key )
 (def default-db
   {:name "HeedyFeedy"
    :server (into {} (some->> (.getItem js/localStorage ls-server-config-key)
                              (cljs.reader/read-string)))
-   :heedy-objects {}
-   :heedy-ts {}
+   :heedy-objects (some->> (.getItem js/localStorage ls-objects-key)
+                             (cljs.reader/read-string))
    :heedy-send-queue {}
-   :basket {}
+   :basket (into {} (some->> (.getItem js/localStorage ls-basket-key)
+                             (cljs.reader/read-string)))
    :error-messages []
    })
 
 (defn server-config->local-store [^PersistentArrayMap db]
-  (println "to local store")
-  (println db)
   (.setItem js/localStorage ls-server-config-key (str (:server db))))
 
+(defn basket->local-store [^PersistentArrayMap db]
+  (println "storing basket" (:basket db))
+  (.setItem js/localStorage ls-basket-key (str (:basket db))))
 
-(re-frame/reg-cofx :local-store-server-config
- (fn [cofx _]
-   (assoc cofx :local-store-server-config
-          (into (sorted-map) (some->>
-                              (.getItem js/localStorage ls-server-config-key)
-                              (cljs.reader/read-string))))))
+(defn objects->local-store [^PersistentArrayMap db]
+  (println "storing objects" (:heedy-objects db))
+  (.setItem js/localStorage ls-objects-key (str (:heedy-objects db))))
+
