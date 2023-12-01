@@ -56,7 +56,6 @@
 
 
 (re-frame/reg-event-fx ::heedy-get-objects
-
  (fn [{:keys [db]} [_ _]]
    {:http-xhrio {:method          :get
                  :uri             (str (-> db :server :url) "/api/objects" )
@@ -89,4 +88,34 @@
   (fn [db [_ _]]
     (let [last-date (last (keys (:basket db)))]
       (update-in db [:basket] dissoc last-date))))
+
+(re-frame/reg-event-db ::upload-to-heedy-success
+ (fn [db [_ response]]
+   (println "upload success for " response)
+   (update-in db [:basket] dissoc response)
+   ))
+
+(re-frame/reg-event-db ::upload-to-heedy-failure
+ (fn [db [_ error-response]]
+   (println "upload failure " error-response)
+   ))
+
+(re-frame/reg-event-fx ::upload-to-heedy
+  (fn [{:keys [db]} [_ _]]
+    (let [basket (:basket db)]
+      (println "upload basket" basket)
+      {:http-xhrio
+        (for [[date [id _ value]] basket
+              :let [body [{:t date :d value}]]]
+          {:method          :post
+           :uri             (str (-> db :server :url) "/api/objects/" id "/timeseries" )
+           :params          body
+           :headers         {:Authorization (str "Bearer " (-> db :server :token))}
+           :format          (ajax/json-request-format)
+           :response-format (ajax/json-response-format {:keywords? true})
+           :on-success      [::upload-to-heedy-success date]
+           :on-failure      [::upload-to-heedy-failure]}
+          )
+       }
+    )))
 

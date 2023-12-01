@@ -19,11 +19,11 @@
                              :size :10
                              :on-change #(reset! number (-> % .-target .-value))
                              :on-key-down #(case (.-which %)
-                                             13 (re-frame/dispatch [::events/add-to-basket [id objname @number]])
+                                             13 (re-frame/dispatch [::events/add-to-basket [id objname @number]]) 
                                              nil)
                              }]
        [:div.basket-button
-         {:on-click #(re-frame/dispatch [::events/add-to-basket [id objname @number ] ])}
+         {:on-click #(re-frame/dispatch [::events/add-to-basket [id objname (js/parseInt @number )] ])}
          [:img {:src "/icons/arrow-downward.svg"}]
         ]
       ]
@@ -92,7 +92,8 @@
        [:img#server.header-icon.push {:src "/icons/account_box.svg"
                                  :on-click #(re-frame/dispatch [::events/show-server-info])
                                  }]
-       [:img#refresh.header-icon {:src "/icons/refresh.svg"}]
+       [:img#refresh.header-icon {:src "/icons/refresh.svg"
+                                  :on-click #(re-frame/dispatch [::events/heedy-get-objects] )}]
        ]
      [:main.app-body
       ; (for [object @heedy-objects
@@ -149,7 +150,7 @@
   []
   (let [server-info (re-frame/subscribe [:server])
         ]
-(println "info" (:show-server-info @server-info) )
+;(println "info" (:show-server-info @server-info) )
     (if (:show-server-info @server-info) 
       (login-panel server-info)
       (main-page))
