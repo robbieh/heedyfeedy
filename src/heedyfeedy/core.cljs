@@ -20,6 +20,5 @@
 
 (defn init []
   (re-frame/dispatch-sync [::events/initialize-db])
-  (println "you've called INIT!")
   (dev-setup)
   (mount-root))

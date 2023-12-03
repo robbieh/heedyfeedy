@@ -66,6 +66,7 @@
 
 (defn basket-div [basket]
   [:footer.app-footer
+   [:div.basket
     (for [[date content] basket
           :let [[id objname value] content] ]
       ^{:key (str id "-" date "-basket")} [:div.basket-item
@@ -73,6 +74,7 @@
                                   [:p value]
                                   ]
       )
+    ]
    [:div.footer-icon.push {:on-click #(re-frame/dispatch [::events/remove-all-from-basket])}
      [:img {:src "/icons/delete-forever.svg"}]
     ]
@@ -85,7 +87,7 @@
    ]
   )
 (defn main-page []
-  (let [heedy-objects (re-frame/subscribe [:heedy-objects])
+  (let [heedy-objects (re-frame/subscribe [:heedy-objects-annotated])
         basket        (re-frame/subscribe [:basket])]
      [:<> 
       [:nav.app-header "HeedyFeedy" 
@@ -103,24 +105,25 @@
       ;       [:p (:name object) schema-type enum?]
       ;       )
               
-      (for [object @heedy-objects
-            :let [
-              schema-type (get-in object [:meta :schema :type])
-              enum?       (get-in object [:meta :schema :enum])
-              x-display   (get-in object [:meta :schema :x-display])
-              schema-type (if enum? "enum" schema-type)
-              schema-type (if x-display x-display schema-type)
-            ]]
-        (case schema-type
-              "number"  (heedy-number-object object)
-              "string"  (heedy-string-object object)
-              "enum"    (heedy-enum-object object)
-              ^{:key (:id object)} [:p "schema missing:" schema-type  ]
-              )
-
-        )
+      (for [[group object-list] @heedy-objects]
+        ^{:key group} 
+        [:div
+         [:div.heedy-object-group-header [:p group]]
+         [:div.heedy-object-group
+         (for [object object-list
+              :let [display-type (:display-type object)]]
+          (case display-type
+                "number"  (heedy-number-object object)
+                "string"  (heedy-string-object object)
+                "enum"    (heedy-enum-object object)
+                ^{:key (:id object)} [:p "schema missing:" (-> object :meta :schema)  ]
+                ))
+          ]
+         ]
+       )
       ]
-     (when (not (empty? @basket)) (basket-div @basket))
+      ;(when (not (empty? @basket)) (basket-div @basket))
+      (basket-div @basket)
      ]))
 
 (defn update-server-info [])
@@ -145,12 +148,9 @@
    ]
   )
 ;(re-frame/dispatch ::heedy-get-objects)
-(defn starter "Conditionally show login panel or main page"
-  []
-  (let [server-info (re-frame/subscribe [:server])
-        ]
-;(day8.re-frame-10x/show-panel! false)
-;(println "info" (:show-server-info @server-info) )
+(defn starter "Conditionally show login panel or main page" []
+  (let [server-info (re-frame/subscribe [:server])]
+(day8.re-frame-10x/show-panel! false)
     (if (:show-server-info @server-info) 
       (login-panel server-info)
       (main-page))
