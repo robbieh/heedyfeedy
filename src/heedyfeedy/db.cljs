@@ -1,6 +1,7 @@
 (ns heedyfeedy.db
   (:require
    [re-frame.core :as re-frame]
+   [cljs.reader]
    ))
 
 (def ls-server-config-key "heedyfeedy-server-config")
@@ -9,7 +10,7 @@
 
 ;(.removeItem js/localStorage ls-server-config-key )
 (def default-db
-  {:name "HeedyFeedy"
+  {
    :server (into {} (some->> (.getItem js/localStorage ls-server-config-key)
                              (cljs.reader/read-string)))
    :heedy-objects (some->> (.getItem js/localStorage ls-objects-key)
@@ -24,10 +25,8 @@
   (.setItem js/localStorage ls-server-config-key (str (:server db))))
 
 (defn basket->local-store [^PersistentArrayMap db]
-  (println "storing basket" (:basket db))
   (.setItem js/localStorage ls-basket-key (str (:basket db))))
 
 (defn objects->local-store [^PersistentArrayMap db]
-  (println "storing objects" (:heedy-objects db))
   (.setItem js/localStorage ls-objects-key (str (:heedy-objects db))))
 

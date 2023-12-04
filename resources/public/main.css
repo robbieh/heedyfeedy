@@ -40,17 +40,17 @@ a {
 	min-height: 100%;
 	left: 0;
 	top: 0;
-	display: flex;
-	flex-direction: column;
+	display: grid;
+	grid-template-rows: auto 1fr auto;
 }
 
 .app-body {
+	overflow: scroll;
 }
 
 .app-header {
 	position: sticky;
 	width: 100%;
-	left 0;
 	top: 0;
 	background: var(--color-accent);
 	padding: 8px 0;
@@ -59,16 +59,15 @@ a {
 }
 
 .app-footer {
-	background: lightyellow;
+	background-color: lightyellow;
 	position: sticky;
 	width: 100%;
-	left 0;
 	bottom: 0;
+	height: max-content;
 	flex-shrink: 0;
-	display: flex;
-	justify-content: normal;
-	text-align: left;
-	padding: 8px 0;
+
+	display: grid;
+	grid-template-columns: 1fr auto;
 }
 
 .refresh-icon {
@@ -108,19 +107,6 @@ a {
 }
 
 
-.footer-icon {
-}
-
-.basket-item {
-	padding: 8px 8px;
-	margin: 8px 8px 8px 8px;
-	background: burlywood;
-}
-
-.basket-button {
-	background: lightgray;
-}
-
 .header-icon {
 }
 .push {
@@ -154,11 +140,29 @@ a {
 
 .heedy-entry-line {
 	display: flex;
+	overflow: scroll;
 }
 
 .basket {
 	display: flex;
+	overflow: scroll;
 }
 
+.basket-item {
+	padding: 2px 4px 2px 4px;
+	margin: 2px;
+	font: 400 12px / 1.4 Inter, sans-serif;
+	background: burlywood;
+}
+
+.basket-icons {
+	position: sticky;
+	right: 0;
+}
+
+/* for entering text and numbers */
+.basket-button {
+	background: lightgray;
+}
 
 
