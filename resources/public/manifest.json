@@ -1,11 +1,10 @@
 {
 	"name": "HeedyFeedy",
-	"short_name": "HeedyFeedy",
 	"scope": "/",
-	"start_url": "/",
+	"start_url": "index.html",
 	"icons": [
-		{"src": "/pwa-icons/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png"},
-		{"src": "/pwa-icons/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png"}
+		{"src": "pwa-icons/android-192x192.png", "sizes": "192x192", "type": "image/png"},
+		{"src": "pwa-icons/android-512x512.png", "sizes": "512x512", "type": "image/png"}
 		],
 	"theme_color": "#00ff77",
 	"background_color": "#00ff77",

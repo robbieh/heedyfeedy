@@ -93,8 +93,9 @@
    ]
   )
 (defn main-page []
-  (let [heedy-objects (re-frame/subscribe [:heedy-objects-annotated])
-        basket        (re-frame/subscribe [:basket])]
+  (let [heedy-objects  (re-frame/subscribe [:heedy-objects-annotated])
+        basket         (re-frame/subscribe [:basket])
+        error-messages (re-frame/subscribe [:error-messages])]
      [:<> 
       [:nav.app-header "HeedyFeedy" 
        [:img#server.header-icon.push {:src "icons/account_box.svg"
@@ -102,6 +103,11 @@
                                  }]
        [:img#refresh.header-icon {:src "icons/refresh.svg"
                                   :on-click #(re-frame/dispatch [::events/heedy-get-objects] )}]
+       (when (not (empty? @error-messages)) 
+       [:img#errors.header-icon {:src "icons/sync_problem.svg"
+                                 :on-click #(re-frame/dispatch [::events/show-errors] )
+                                  }]
+         )
        ]
      [:main.app-body
       ; (for [object @heedy-objects
@@ -133,6 +139,17 @@
      ]))
 
 (defn update-server-info [])
+
+(defn errors-panel [error-messages]
+  [:div.errors
+   (for [message error-messages]
+     [:p message])
+   ]
+  [:button "Dismiss"
+   {:on-click (re-frame/dispatch [::events/hide-errors])}]
+  [:button "Clear"
+   {:on-click (re-frame/dispatch [::events/clear-errors])}]
+  )
 
 (defn login-panel [server-info]
   [:div.login

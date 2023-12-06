@@ -13,7 +13,9 @@
   ;[re-frisk "1.6.0"]
   ]
 
- :http {:host "vermouth.nundrum.net" :port 9630}
+ :http {:host "vermouth.nundrum.net" :port 9630 :ssl-port 19630}
+ :ssl {:keystore "ssl/keystore.jks"
+       :password "shadow-cljs"}
  :dev-http {8630 {:host "vermouth.nundrum.net" 
                   :root "resources/public" 
                   :proxy-url "http://heedy.nundrum.net:1324"}

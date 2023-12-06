@@ -78,6 +78,7 @@
 
 (re-frame/reg-event-fx ::heedy-get-objects
  (fn [{:keys [db]} [_ _]]
+   (println "getting heedy objects")
    {:http-xhrio {:method          :get
                  :uri             (str (-> db :server :url) "/api/objects" )
                  :headers         {:Authorization (str "Bearer " (-> db :server :token))}
@@ -111,13 +112,17 @@
       (update-in db [:basket] dissoc last-date))))
 
 (re-frame/reg-event-db ::upload-to-heedy-success store-basket-interceptor
- (fn [db [_ response]]
-   (update-in db [:basket] dissoc response)
-   ))
+ (fn [db [_ date response]]
+   (println "upload success " date response)
+   (if (= "ok" (:result response))
+     (update-in db [:basket] dissoc date)
+     (update-in db [:error-messages] conj response)
+     )))
 
 (re-frame/reg-event-db ::upload-to-heedy-failure
  (fn [db [_ error-response]]
-   ;(println "upload failure " error-response)
+   (println "upload failure " error-response)
+   (update-in db [:error-messages] conj error-response)
    ))
 
 (re-frame/reg-event-fx ::upload-to-heedy
@@ -125,7 +130,8 @@
     (let [basket (:basket db)]
       {:http-xhrio
         (for [[date [id _ value]] basket
-              :let [body [{:t date :d value}]]]
+              :let [sdate (-> date (/ 1000.0) int) ;Heedy dislikes millisecond epoch
+                    body [{:t sdate :d value}]]]
           {:method          :post
            :uri             (str (-> db :server :url) "/api/objects/" id "/timeseries" )
            :params          body
@@ -138,3 +144,16 @@
        }
     )))
 
+(re-frame/reg-event-db ::show-errors
+  (fn [db [_ _]]
+    (assoc db :show-errors true)))
+
+(re-frame/reg-event-db ::hide-errors
+  (fn [db [_ _]]
+    (dissoc db :show-errors )))
+
+(re-frame/reg-event-db ::clear-errors
+  (fn [db [_ _]]
+    (-> db 
+        (dissoc :show-errors )
+        (assoc :error-messages [] ))))
