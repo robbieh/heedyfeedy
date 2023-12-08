@@ -5,6 +5,7 @@
 (re-frame/reg-sub :server :-> :server)
 (re-frame/reg-sub :basket :-> :basket)
 (re-frame/reg-sub :error-messages :-> :error-messages)
+(re-frame/reg-sub :show-errors :-> :show-errors)
 (re-frame/reg-sub :heedy-objects :-> :heedy-objects)
 
 (defn add-display-type [object-map]

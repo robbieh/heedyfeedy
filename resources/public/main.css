@@ -105,7 +105,10 @@ a {
 
 
 .header-icon {
+	width: 44px;
+	height: 44px;
 }
+
 .push {
 	margin-left: auto;
 }
@@ -172,6 +175,8 @@ a {
 	margin: auto;
 	display: flex;
 	position: absolute;
+	width: 75%;
+	height: 75%;
 	top: 25%;
 	left: 25%;
 	transform: translate(-25%, -25%);

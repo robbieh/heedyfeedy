@@ -92,10 +92,27 @@
 
    ]
   )
+
+(defn errors-panel [error-messages]
+  [:div.errors
+     (for [[index message] (map-indexed vector error-messages)]
+       ^{:key (str "error-" index)} [:div.error [:p (str message)]])
+      [:button 
+       {:on-click #(re-frame/dispatch [::events/hide-errors])}
+       "Dismiss"
+       ]
+      [:button 
+       {:on-click #(re-frame/dispatch [::events/clear-errors])}
+       "Clear"
+       ]
+   ]
+  )
+
 (defn main-page []
   (let [heedy-objects  (re-frame/subscribe [:heedy-objects-annotated])
         basket         (re-frame/subscribe [:basket])
-        error-messages (re-frame/subscribe [:error-messages])]
+        error-messages (re-frame/subscribe [:error-messages])
+        show-errors    (re-frame/subscribe [:show-errors])]
      [:<> 
       [:nav.app-header "HeedyFeedy" 
        [:img#server.header-icon.push {:src "icons/account_box.svg"
@@ -136,20 +153,11 @@
       ]
       ;(when (not (empty? @basket)) (basket-div @basket))
       (basket-div @basket)
+      (when @show-errors (errors-panel @error-messages))
      ]))
 
 (defn update-server-info [])
 
-(defn errors-panel [error-messages]
-  [:div.errors
-   (for [message error-messages]
-     [:p message])
-   ]
-  [:button "Dismiss"
-   {:on-click (re-frame/dispatch [::events/hide-errors])}]
-  [:button "Clear"
-   {:on-click (re-frame/dispatch [::events/clear-errors])}]
-  )
 
 (defn login-panel [server-info]
   [:div.login
@@ -174,7 +182,7 @@
 (defn starter "Conditionally show login panel or main page" []
   (let [server-info (re-frame/subscribe [:server])]
 
-(day8.re-frame-10x/show-panel! false)
+;(day8.re-frame-10x/show-panel! false)
     (if (or (:show-server-info @server-info) (empty? @server-info))
       (login-panel server-info)
       (main-page))

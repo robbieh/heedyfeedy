@@ -78,7 +78,6 @@
 
 (re-frame/reg-event-fx ::heedy-get-objects
  (fn [{:keys [db]} [_ _]]
-   (println "getting heedy objects")
    {:http-xhrio {:method          :get
                  :uri             (str (-> db :server :url) "/api/objects" )
                  :headers         {:Authorization (str "Bearer " (-> db :server :token))}
@@ -113,7 +112,6 @@
 
 (re-frame/reg-event-db ::upload-to-heedy-success store-basket-interceptor
  (fn [db [_ date response]]
-   (println "upload success " date response)
    (if (= "ok" (:result response))
      (update-in db [:basket] dissoc date)
      (update-in db [:error-messages] conj response)
@@ -121,7 +119,6 @@
 
 (re-frame/reg-event-db ::upload-to-heedy-failure
  (fn [db [_ error-response]]
-   (println "upload failure " error-response)
    (update-in db [:error-messages] conj error-response)
    ))
 
