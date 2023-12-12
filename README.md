@@ -41,6 +41,12 @@ This assumes your Heedy instance is running at heedy.example.org on port 1324.
 Place the HeedyFeedy release files in /var/www/heedyfeedy/heedyfeedy for this example.
 Note the doubling of the name needed because the `DocumentRoot` has the same name.
 
+## Installing the PWA
+
+This heavily depends on the browser and device you're using, but the gist of it is to visit
+the HeedyFeedy URL you deployed to and finding the "install" button in the browser. This should
+create an icon on your device so you can use it as an offline-capable app.
+
 ## Using
 
 First, generate an app token on the Heedy server.
