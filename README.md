@@ -62,4 +62,6 @@ in the basket until you are ready to upload them again.
 
 Use the reload button at the top right to refresh the list of Heedy timeseries objects.
 
+## Development status
 
+This is still very beta. The "star rating" type is not implemented.
