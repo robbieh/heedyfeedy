@@ -2,7 +2,7 @@
 
 A Progressive Web App to make entering data for [Heedy](https://heedy.org) easier.
 
-!["Screenshot of HeedyFeedy app"](../../../raw/branch/dev/media/HeedyFeedy.png)
+!["Screenshot of HeedyFeedy app"](https://github.com/robbieh/raw/branch/dev/media/HeedyFeedy.png)
 
 ## Deployment
 
