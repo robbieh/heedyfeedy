@@ -2,6 +2,8 @@
 
 A Progressive Web App to make entering data for [Heedy](https://heedy.org) easier.
 
+!["Screenshot of HeedyFeedy app"](../../../raw/branch/dev/media/HeedyFeedy.png)
+
 ## Deployment
 
 *You must have your own Heedy instance.* This does not provide any of Heedy's
