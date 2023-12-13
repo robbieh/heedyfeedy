@@ -42,6 +42,8 @@
      [:p.heedy-object-description (or (:name obj) (:description obj))]
      [:div.heedy-entry-line
        [:input.heedy-string {:size :14 
+                             :type :text
+                             :name objname
                              :on-change #(reset! text (-> % .-target .-value))
                              :on-key-down 
                                #(case (.-which %)
