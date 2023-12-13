@@ -8,7 +8,7 @@
 
 (defn heedy-number-object [obj]
   (let [number  (reagent/atom "")
-        schema  (get-in obj [:meta :schema])
+        ;schema  (get-in obj [:meta :schema])
         id      (:id obj)
         objname (:name obj)
         ]
@@ -34,32 +34,36 @@
 
 (defn heedy-string-object [obj]
   (let [text    (reagent/atom "")
-        schema  (get-in obj [:meta :schema])
         id      (:id obj)
         objname (:name obj)
         ]
-    ^{:key id} [:div.heedy-object 
+    (fn []
+     [:div.heedy-object 
      [:p.heedy-object-description (or (:name obj) (:description obj))]
      [:div.heedy-entry-line
        [:input.heedy-string {:size :14 
                              :type :text
                              :name objname
+                             :value @text
                              :on-change #(reset! text (-> % .-target .-value))
                              :on-key-down 
                                #(case (.-which %)
-                                  13 (re-frame/dispatch 
-                                       [::events/add-to-basket [id objname @text]])
+                                  13 (do 
+                                       (println "before" @text)
+                                       (re-frame/dispatch 
+                                         [::events/add-to-basket [id objname @text]])
+                                       (reset! text "")
+                                       (println "after" @text)
+                                       )
                                   nil)
                              }]
        [:div.basket-button
          {:on-click #(re-frame/dispatch [::events/add-to-basket [id objname @text ] ])}
-         [:img {:src "icons/arrow-downward.svg"}]
-        ]
-      ]
-     ]))
+         [:img {:src "icons/arrow-downward.svg"}]] ] ])))
 
 (defn heedy-enum-object [obj]
-  (let [schema (get-in obj [:meta :schema])
+  (let [
+        ;schema (get-in obj [:meta :schema])
         id      (:id obj)
         objname (:name obj)
         enum    (get-in obj [:meta :schema :enum])
@@ -142,11 +146,12 @@
          [:div.heedy-object-group-header [:p group]]
          [:div.heedy-object-group
          (for [object object-list
-              :let [display-type (:display-type object)]]
+              :let [display-type (:display-type object)
+                    id           (:id object)]]
           (case display-type
-                "number"  (heedy-number-object object)
-                "string"  (heedy-string-object object)
-                "enum"    (heedy-enum-object object)
+                "number"            (heedy-number-object object)
+                "string"  ^{:key id}[heedy-string-object object]
+                "enum"              (heedy-enum-object object)
                 ^{:key (:id object)} [:p "schema missing:" (-> object :meta :schema)  ]
                 ))
           ]
