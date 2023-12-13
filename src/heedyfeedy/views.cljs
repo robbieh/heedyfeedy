@@ -16,17 +16,17 @@
      [:p.heedy-object-description (or (:name obj) (:description obj))]
      [:div.heedy-entry-line
        [:input.heedy-number {:type :number
-                             :inputMode :numeric
+                             :inputMode :decimal
                              :size :10
                              :on-change #(reset! number (-> % .-target .-value))
                              :on-key-down 
                                #(case (.-which %)
                                   13 (re-frame/dispatch 
-                                       [::events/add-to-basket [id objname (js/parseInt @number)]]) 
+                                       [::events/add-to-basket [id objname (js/parseFloat @number)]]) 
                                   nil)
                              }]
        [:div.basket-button
-         {:on-click #(re-frame/dispatch [::events/add-to-basket [id objname (js/parseInt @number )] ])}
+         {:on-click #(re-frame/dispatch [::events/add-to-basket [id objname (js/parseFloat @number )] ])}
          [:img {:src "icons/arrow-downward.svg"}]
         ]
       ]
