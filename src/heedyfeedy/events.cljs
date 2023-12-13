@@ -4,6 +4,7 @@
    [heedyfeedy.db :as db]
    [day8.re-frame.tracing :refer-macros [fn-traced]]
    [ajax.core :as ajax]
+   [cljs.reader]
    ))
 
 ; cofx =======================================================================
@@ -52,7 +53,7 @@
    {:db (-> db (assoc :server server-map)
                (update-in [:server] dissoc :show-server-info))
     :http-xhrio {:method          :get
-                 :uri             (str (:url server-map) "/api/users/" (:user server-map))
+                 :uri             (str (:url server-map) "/api/objects")
                  :headers         {:Authorization (str "Bearer " (:token server-map))}
                  :response-format (ajax/json-response-format {:keywords? true})
                  :on-success      [::login-success]
@@ -65,7 +66,8 @@
 
 (re-frame/reg-event-fx ::login-success
   (fn [cofx [_ response]]
-    {:fx [[:dispatch [::heedy-get-objects]]]}
+                       (println "login sucess" (str response))
+    {:fx [[:dispatch [::heedy-receive-objects response]]]}
     ))
 
 (re-frame/reg-event-db ::login-failure
