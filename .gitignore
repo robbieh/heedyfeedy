@@ -5,6 +5,11 @@
 /*-init.clj
 /*.log
 
+/ssl/
+/releases/
+/release.sh
+
+
 # Leiningen
 /.lein-*
 /.nrepl-port
