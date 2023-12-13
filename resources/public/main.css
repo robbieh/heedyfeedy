@@ -127,7 +127,9 @@ a {
 	flex-direction: column;
 	border: 2px solid var(--color-accent);
 }
-
+.heedy-object:active {
+	background: green;
+}
 .heedy-object-group-header {
 	width: 100%;
 	background: lightgreen;
@@ -153,7 +155,9 @@ a {
 	margin: 2px;
 	font: 400 12px / 1.4 Inter, sans-serif;
 	background: burlywood;
-}
+	position:relative;
+	animation:animatebottom 0.4s}
+@keyframes animatebottom{from{bottom:-300px;opacity:0} to{bottom:0;opacity:1}}
 
 .basket-icons {
 	position: sticky;
